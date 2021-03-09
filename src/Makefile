@@ -20,7 +20,6 @@ tar:
 	
 svg: logo
 	./logo < test.logo
-	inkscape dessin.svg
 
 test: Test.c MyProg.o
 	gcc Test.c MyProg.h MyProg.o -o test -lm

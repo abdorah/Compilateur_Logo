@@ -74,6 +74,7 @@ INST : FORWARD VALUE
   |	   IF VALUE '[' PROG ']' BLOCK
 		{
 		NODE* ift=newNode(IFc,$2,NULL);
+		$$=NULL;
 		$$=addNodeFinIF($4, ift);
 		$$=addNodeFin($6,$$);
 	}
@@ -127,6 +128,7 @@ BLOCK:
 	$$=addNodeFinIF($$, elst);
   }
   | %empty {
+	$$=NULL;
     printf("\n");
   }
 
