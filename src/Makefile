@@ -14,16 +14,9 @@ MyProg: MyProg.o
 
 MyProg.o: MyProg.c
 	gcc -c MyProg.c -o MyProg.o
-	
-tar:
-	tar -cvf TPLogo.tar Makefile MyProg.c MyProg.h exemple1Logo logo.l logo.y 
-	
+
 svg: logo
 	./logo < test.logo
-
-test: Test.c MyProg.o
-	gcc Test.c MyProg.h MyProg.o -o test -lm
-	./test
 
 clean:
 	@rm -f *.o logo.tab.c logo.tab.h lex.yy.c
