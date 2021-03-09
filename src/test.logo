@@ -1,5 +1,8 @@
-IF 1 [
-FORWARD 60
-
+IF 0 [
+    FORWARD 60
 ]
-
+ELSE [ 
+    FORWARD 40
+    RIGHT 90
+    FORWARD 40
+]

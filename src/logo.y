@@ -19,7 +19,7 @@ int yyerror()
 %}   
 
 // symbole terminaux
-%token   FORWARD RIGHT LEFT REPEAT IF VALUE BLUE GREEN RED TRANSPARENT BLACK SQUARE COLOR HEXA STAR DEFFONCTION USEFONCTION
+%token   FORWARD RIGHT LEFT REPEAT IF ELSE VALUE BLUE GREEN RED TRANSPARENT BLACK SQUARE COLOR HEXA STAR DEFFONCTION USEFONCTION
 
 //type de yylval
 %union {
@@ -28,7 +28,7 @@ int yyerror()
  };
 
 //type des  symboles
-%type <NODE_TYPE> FORWARD RIGHT LEFT REPEAT IF BLUE GREEN RED TRANSPARENT BLACK SQUARE COLOR STAR DEFFONCTION USEFONCTION
+%type <NODE_TYPE> FORWARD RIGHT LEFT REPEAT IF ELSE BLOCK BLUE GREEN RED TRANSPARENT BLACK SQUARE COLOR STAR DEFFONCTION USEFONCTION
 %type <NODE_TYPE> PROG INST 
 %type  <val> VALUE HEXA
 
@@ -71,10 +71,11 @@ INST : FORWARD VALUE
 		NODE* rep=newNode(REPEATc,$2,NULL);
 		$$=addNodeFinRepeat($4, rep);
 	}
-  |	   IF VALUE '[' PROG ']'
+  |	   IF VALUE '[' PROG ']' BLOCK
 		{
 		NODE* ift=newNode(IFc,$2,NULL);
 		$$=addNodeFinIF($4, ift);
+		$$=addNodeFin($6,$$);
 	}
 	
   |	   DEFFONCTION VALUE '[' PROG ']'
@@ -118,6 +119,16 @@ INST : FORWARD VALUE
 		{
 		$$=newNode(USEFONCTIONc,$2,NULL);
 	}
+
+BLOCK:
+  ELSE '[' PROG ']' {
+	NODE* elst=newNode(ELSEc,0,$3);
+	$$=NULL;
+	$$=addNodeFinIF($$, elst);
+  }
+  | %empty {
+    printf("\n");
+  }
 
 %%
 /*--------------------------------------------------------         

@@ -65,7 +65,7 @@ NODE *addNodeFinRepeat(NODE *pNoeudaAjouter, NODE *pNoeudRepeat)
 
 NODE *addNodeFinIF(NODE *pNoeudaAjouter, NODE *pNoeudRepeat)
 {
-	if (pNoeudRepeat->instrLogo == IFc || pNoeudRepeat->instrLogo == DEFFONCTIONc)
+	if (pNoeudRepeat->instrLogo == IFc || pNoeudRepeat->instrLogo == DEFFONCTIONc || pNoeudRepeat->instrLogo == ELSEc)
 	{
 		//if (pNoeudRepeat->valeur)
 		//{
@@ -135,6 +135,10 @@ void affichageNode(NODE *pNoeud, int *tab)
 			printf("IF ");
 			printf("%d", pNoeud->valeur);
 			break;
+		case ELSEc:
+			printf("ESLE ");
+			//printf("%d", pNoeud->valeur);
+			break;
 		case BLUEc:
 			printf("BLUE ");
 			break;
@@ -170,7 +174,7 @@ void affichageNode(NODE *pNoeud, int *tab)
 			printf("Instruction inconnue");
 			break;
 		}
-		if (pNoeud->instrLogo == REPEATc || pNoeud->instrLogo == DEFFONCTIONc)
+		if (pNoeud->instrLogo == REPEATc || pNoeud->instrLogo == IFc || pNoeud->instrLogo == ELSEc  ||  pNoeud->instrLogo == DEFFONCTIONc)
 		{
 			printf(" [\n");
 			a = a + 1;
@@ -181,20 +185,6 @@ void affichageNode(NODE *pNoeud, int *tab)
 				printf("\t");
 			}
 			printf("]");
-		}
-		else if (pNoeud->instrLogo == IFc)
-		{
-			
-				printf(" [\n");
-				a = a + 1;
-				affichageNode(pNoeud->subProg, &a);
-				a = a - 1;
-				for (i = 1; i <= a; i++)
-				{
-					printf("\t");
-				}
-				printf("]");
-			
 		}
 
 		printf("\n");
@@ -251,12 +241,16 @@ void generationLigneSVG(FILE *fichier, NODE *noeud, NODE *racine)
 	}
 	else if (noeud->instrLogo == IFc)
 	{
-
 		int a = noeud->valeur;
 		if (a)
 		{
 			generationLigneSVG(fichier, noeud->subProg, racine);
 		}
+		if ((noeud->suivant->instrLogo == ELSEc) && !a)
+		{
+			generationLigneSVG(fichier, noeud->suivant->subProg, racine);
+		}
+		
 	}
 	else
 	{
@@ -353,6 +347,10 @@ void valeurFenetreSVG(NODE *noeud, NODE *racine, ECARTEMENT *valLimites)
 		if (a)
 		{
 			valeurFenetreSVG(noeud->subProg, racine, valLimites);
+		}
+		if ((noeud->suivant->instrLogo == ELSEc) && !a)
+		{
+			valeurFenetreSVG(noeud->suivant->subProg, racine, valLimites);
 		}
 	}
 	else

@@ -19,7 +19,7 @@ tar:
 	tar -cvf TPLogo.tar Makefile MyProg.c MyProg.h exemple1Logo logo.l logo.y 
 	
 svg: logo
-	./logo < monDessin
+	./logo < test.logo
 	inkscape dessin.svg
 
 test: Test.c MyProg.o

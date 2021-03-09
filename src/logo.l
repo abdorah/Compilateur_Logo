@@ -10,6 +10,7 @@
 \]        		{return ']';}
 "REPEAT"        { return REPEAT;}
 "IF"            { return IF;}
+"ELSE"          { return ELSE;}
 "FORWARD"       { return FORWARD;}
 "RIGHT"        	{ return RIGHT;}
 "LEFT"        	{ return LEFT;}
