@@ -3,16 +3,16 @@
 #include <math.h>
 #include "semantic.h"
 
-NODE *create_node(token instr, int value, NODE *sousProg)
+NODE *create_node(token instruction, int value, NODE *program)
 {
 	NODE *pn = (NODE *)malloc(sizeof(NODE));
 	if (pn == NULL)
 	{
-		fprintf(stderr, "Problème de malloc: plus de mémoire\n");
+		fprintf(stderr, "malloc error\n");
 	}
-	pn->intstruction = instr;
+	pn->intstruction = instruction;
 	pn->value = value;
-	pn->program = sousProg;
+	pn->program = program;
 	return pn;
 }
 
@@ -24,10 +24,6 @@ NODE *append_node(NODE *pn1, NODE *pn)
 	}
 	else
 	{
-		/*if(pn->next==NULL){
-			pn->next=pn1;
-			return pn;
-		}*/
 		NODE *cur = pn;
 		while (cur->next != NULL)
 		{
@@ -58,7 +54,7 @@ NODE *append_node_repeat(NODE *pn1, NODE *pn2)
 	}
 	else
 	{
-		printf("Erreur: pas un addFinRepeat appelé sur un non repeat\n");
+		printf("error repeat\n");
 	}
 	return pn2;
 }
@@ -67,8 +63,6 @@ NODE *append_node_if(NODE *pn1, NODE *pn2)
 {
 	if (pn2->intstruction == IF_TOKEN || pn2->intstruction == DEFFONCTION_TOKEN || pn2->intstruction == ELSE_TOKEN)
 	{
-		//if (pn2->value)
-		//{
 			if (pn2->program == NULL)
 			{
 				pn2->program = pn1;
@@ -82,12 +76,11 @@ NODE *append_node_if(NODE *pn1, NODE *pn2)
 				}
 				cur->next = pn1;
 			}
-		//}
 		
 	}
 	else
 	{
-		printf("Erreur: pas un addFinRepeat appelé sur un non repeat\n");
+		printf("Error if\n");
 	}
 	return pn2;
 }
@@ -137,7 +130,6 @@ void print_node(NODE *pn, int *tab)
 			break;
 		case ELSE_TOKEN:
 			printf("ESLE ");
-			//printf("%d", pn->value);
 			break;
 		case BLUE_TOKEN:
 			printf("BLUE ");
@@ -193,20 +185,20 @@ void draw(NODE *n)
 {
 	if (n == NULL)
 	{
-		printf("Generation SVG sur un n nul\n");
+		printf("error node is null \n");
 	}
 
 	FILE *dest = NULL;
-	dest = fopen("dessin.svg", "w+");
+	dest = fopen("picture.svg", "w+");
 	ACTION valuesMax;
 	valuesMax.left = 0.0;
 	valuesMax.right = 0.0;
 	valuesMax.up = 0.0;
 	valuesMax.down = 0.0;
-	xo = 0; //xo et yo correspondent au milieu de la fenêtre: on cherche l'écartement maximal par rapport à ce milieu
+	xo = 0; 
 	yo = 0;
 	angle = 0;
-	color = 4; //Noir par défaut
+	color = 4; 
 	update_svg(n, n, &valuesMax);
 	double width = 2 * max(absolute_value(valuesMax.left), valuesMax.right) + 100.0;
 	double height = 2 * max(absolute_value(valuesMax.up), valuesMax.down) + 100.0;
