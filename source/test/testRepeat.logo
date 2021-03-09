@@ -1,0 +1,7 @@
+REPEAT 5 [
+    FORWARD 20
+    RIGHT 90
+    RIGHT 90
+    FORWARD 80
+    LEFT 90
+]
