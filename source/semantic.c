@@ -197,7 +197,7 @@ void draw(NODE *n)
 	}
 
 	FILE *dest = NULL;
-	dest = fopen("dessin.svg", "w+");
+	dest = fopen("picture.svg", "w+");
 	ACTION valuesMax;
 	valuesMax.left = 0.0;
 	valuesMax.right = 0.0;
