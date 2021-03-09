@@ -8,6 +8,15 @@
 [1-9][0-9]*|0 	{ yylval.val=atoi(yytext); return VALUE;}
 \[        		{ return '[';}
 \]        		{ return ']';}
+"+"				{ return '+';}
+"-"				{ return '-';}
+"/"             { return '/';}
+"*"             { return '*';}
+"("     	    { return '(';}
+")"   	        { return ')';}
+"="		        { return '=';}
+"<"             { return '<';}
+">"             { return '>';}
 "REPEAT"        { return REPEAT;}
 "IF"            { return IF;}
 "ELSE"          { return ELSE;}
