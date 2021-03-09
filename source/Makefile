@@ -16,9 +16,9 @@ semantic.o: semantic.c
 	gcc -c semantic.c -o semantic.o
 
 draw: build
-	./logo < test.logo
+	./logo < test/test.logo
 
 clean:
 	@rm -f *.o parser.tab.c parser.tab.h lex.yy.c
-	@rm -f logo test 
+	@rm -f logo 
 	@rm -f *.svg
