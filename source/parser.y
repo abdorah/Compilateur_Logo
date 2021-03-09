@@ -123,26 +123,6 @@ EXPRESSION : EXPRESSION '+' TERM
 {
     $$ = $1 - $3;
 }
-| EXPRESSION '<' TERM
-{
-    $$ = ((($1 - $3) < 0) ? 1 : 0);
-}
-| EXPRESSION '>' TERM
-{
-    $$ = ((($1 - $3) > 0) ? 1 : 0);
-}
-| EXPRESSION '=' '=' TERM
-{
-    $$ = $1 == $4;
-}
-| EXPRESSION '<' '=' TERM
-{
-    $$ = $1 <= $4;
-}
-| EXPRESSION '>' '=' TERM
-{
-    $$ = $1 >= $4;
-}
 | TERM
 {
     $$ = $1;
