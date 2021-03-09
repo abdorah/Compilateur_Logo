@@ -25,3 +25,8 @@ svg: logo
 test: Test.c MyProg.o
 	gcc Test.c MyProg.h MyProg.o -o test -lm
 	./test
+
+clean:
+	@rm -f *.o logo.tab.c logo.tab.h lex.yy.c
+	@rm -f logo test 
+	@rm -f *.svg
