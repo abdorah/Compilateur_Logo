@@ -4,7 +4,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h> 
-#include "MyProg.h"
+#include "semantic.h"
 
 int yywrap(){
   return 1;
@@ -19,7 +19,7 @@ int yyerror()
 %}   
 
 // symbole terminaux
-%token   FORWARD RIGHT LEFT REPEAT IF ELSE VALUE BLUE GREEN RED TRANSPARENT BLACK SQUARE COLOR HEXA STAR DEFFONCTION USEFONCTION
+%token   FORWARD RIGHT LEFT REPEAT IF ELSE VALUE BLUE GREEN RED TRANSPARENT BLACK COLOR HEXA DEFFONCTION USEFONCTION
 
 //type de yylval
 %union {
@@ -28,7 +28,7 @@ int yyerror()
  };
 
 //type des  symboles
-%type <NODE_TYPE> FORWARD RIGHT LEFT REPEAT IF ELSE BLOCK BLUE GREEN RED TRANSPARENT BLACK SQUARE COLOR STAR DEFFONCTION USEFONCTION
+%type <NODE_TYPE> FORWARD RIGHT LEFT REPEAT IF ELSE BLOCK BLUE GREEN RED TRANSPARENT BLACK COLOR DEFFONCTION USEFONCTION
 %type <NODE_TYPE> PROG INST 
 %type  <val> VALUE HEXA
 
@@ -50,82 +50,74 @@ PROG : INST
 	}
   |    PROG INST
         {
-	  $$=addNodeFin($2,$1);  //on ajoute l'instruction à la fin du programme
+	  $$=append_node($2,$1);  //on ajoute l'instruction à la fin du programme
 	}
   
   
 INST : FORWARD VALUE
         {
-	  $$=newNode(FORWARDc,$2,NULL);
+	  $$=create_node(FORWARD_TOKEN,$2,NULL);
 	}
   |    LEFT VALUE
         {
-	  $$=newNode(LEFTc,$2,NULL);
+	  $$=create_node(LEFT_TOKEN,$2,NULL);
 	}
   |    RIGHT VALUE
        {
-	 $$=newNode(RIGHTc,$2,NULL);
+	 $$=create_node(RIGHT_TOKEN,$2,NULL);
     }
   |	   REPEAT VALUE '[' PROG ']'
 		{
-		NODE* rep=newNode(REPEATc,$2,NULL);
-		$$=addNodeFinRepeat($4, rep);
+		NODE* rep=create_node(REPEATc,$2,NULL);
+		$$=append_node_repeat($4, rep);
 	}
   |	   IF VALUE '[' PROG ']' BLOCK
 		{
-		NODE* ift=newNode(IFc,$2,NULL);
+		NODE* ift=create_node(IF_TOKEN,$2,NULL);
 		$$=NULL;
-		$$=addNodeFinIF($4, ift);
-		$$=addNodeFin($6,$$);
+		$$=append_node_if($4, ift);
+		$$=append_node($6,$$);
 	}
 	
   |	   DEFFONCTION VALUE '[' PROG ']'
 		{
-		NODE* def=newNode(DEFFONCTIONc,$2,NULL);
-		$$=addNodeFinRepeat($4, def);
+		NODE* def=create_node(DEFFONCTION_TOKEN,$2,NULL);
+		$$=append_node_repeat($4, def);
 	}
   |		RED
 		{
-		$$=newNode(REDc,0,NULL);
+		$$=create_node(RED_TOKEN,0,NULL);
 	}
   |		GREEN
 		{
-		$$=newNode(GREENc,0,NULL);
+		$$=create_node(GREEN_TOKEN,0,NULL);
 	}
   |		BLUE
 		{
-		$$=newNode(BLUEc,0,NULL);
+		$$=create_node(BLUE_TOKEN,0,NULL);
 	}
   |		TRANSPARENT
 		{
-		$$=newNode(TRANSPARENTc,0,NULL);
+		$$=create_node(TRANSPARENT_TOKEN,0,NULL);
 	}
   |		BLACK
 		{
-		$$=newNode(BLACKc,0,NULL);
-	}
-  |		SQUARE VALUE
-		{
-		$$=newNode(SQUAREc,$2,NULL);
+		$$=create_node(BLACK_TOKEN,0,NULL);
 	}
   |		COLOR HEXA
 		{
-		$$=newNode(COLORc,$2,NULL);
-	}
-  |		STAR VALUE
-		{
-		$$=newNode(STARc,$2,NULL);
+		$$=create_node(COLOR_TOKEN,$2,NULL);
 	}
   |		USEFONCTION VALUE
 		{
-		$$=newNode(USEFONCTIONc,$2,NULL);
+		$$=create_node(USEFONCTION_TOKEN,$2,NULL);
 	}
 
 BLOCK:
   ELSE '[' PROG ']' {
-	NODE* elst=newNode(ELSEc,0,$3);
+	NODE* elst=create_node(ELSE_TOKEN,0,$3);
 	$$=NULL;
-	$$=addNodeFinIF($$, elst);
+	$$=append_node_if($$, elst);
   }
   | %empty {
 	$$=NULL;
@@ -141,8 +133,8 @@ int main(){
 
 	yyparse();
 	int a=0;
-	affichageNode(root, &a); 
-	generationSVG(root);
-	detruitNode(&root);
+	print_node(root, &a); 
+	draw(root);
+	free_node(&root);
 	return 0;
 }

@@ -1,24 +1,24 @@
-all: logo
+run: build
 
-logo: lex.yy.c logo.tab.c MyProg.c MyProg.h
-	gcc lex.yy.c logo.tab.c MyProg.c -o logo -lm
+build: lex.yy.c parser.tab.c semantic.c semantic.h
+	gcc lex.yy.c parser.tab.c semantic.c -o logo -lm
 	
-logo.tab.c: logo.y
-	bison -d logo.y
+parser.tab.c: parser.y
+	bison -d parser.y
 
-lex.yy.c: logo.l
-	flex logo.l
+lex.yy.c: scanner.l
+	flex scanner.l
 	
-MyProg: MyProg.o
-	gcc MyProg.o -o MyProg
+semantic: semantic.o
+	gcc semantic.o -o semantic
 
-MyProg.o: MyProg.c
-	gcc -c MyProg.c -o MyProg.o
+semantic.o: semantic.c
+	gcc -c semantic.c -o semantic.o
 
-svg: logo
+draw: build
 	./logo < test.logo
 
 clean:
-	@rm -f *.o logo.tab.c logo.tab.h lex.yy.c
+	@rm -f *.o parser.tab.c parser.tab.h lex.yy.c
 	@rm -f logo test 
 	@rm -f *.svg
