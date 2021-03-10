@@ -4,8 +4,10 @@ Ce projet a été réalisé sous la contribution de :
   
   * [Ayoub HMADOUCH ](https://github.com/AyoubHmadouch)
   * [Abdessamad EL HAFI](https://github.com/abdoelhafi)
-  
   * [Abderahmane KOTBI](https://github.com/abdorah)
+  * [Jaouhar DERROUICH](https://github.com/jaouharder)
+  * [Mohammed OUTALLEB](https://github.com/mohammedouttaleb)
+  
 ___
 
 
