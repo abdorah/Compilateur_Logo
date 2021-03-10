@@ -30,7 +30,6 @@ typedef struct node
 } NODE;
 
 typedef NODE *INSTRUCTION;
-
 typedef struct action
 {
 	double left;
@@ -43,12 +42,17 @@ static NODE *root;
 static double pi = 3.1415926;
 static double xo, yo;
 static int angle, color;
-
+//create the node
 NODE *create_node(token instruction, int value, NODE *program);
+//append the node to the linkedlist
 NODE *append_node(NODE *pn1, NODE *pn2);
+//append the node repeat to the linkedlist
 NODE *append_node_repeat(NODE *pn1, NODE *pn2);
+//append the node if to the linkedlist
 NODE *append_node_if(NODE *pn1, NODE *pn2);
+//print the node 
 void print_node(NODE *pn, int *tab);
+//free the memoire
 void free_node(NODE **n);
 void draw(NODE *n);
 void draw_line(FILE *file, NODE *n, NODE *start);
