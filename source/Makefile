@@ -16,7 +16,7 @@ semantic.o: semantic.c
 	gcc -c semantic.c -o semantic.o
 
 draw: build
-	./logo < test/test.logo
+	./logo < test/testEnsias.logo
 
 clean:
 	@rm -f *.o parser.tab.c parser.tab.h lex.yy.c
