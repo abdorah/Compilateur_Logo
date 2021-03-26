@@ -36,7 +36,7 @@ NODE *append_node(NODE *pn1, NODE *pn)
 
 NODE *append_node_repeat(NODE *pn1, NODE *pn2)
 {
-	if (pn2->intstruction == REPEATc || pn2->intstruction == DEFFONCTION_TOKEN)
+	if (pn2->intstruction == REPEAT_TOKEN || pn2->intstruction == DEFFONCTION_TOKEN)
 	{
 		if (pn2->program == NULL)
 		{
@@ -61,7 +61,7 @@ NODE *append_node_repeat(NODE *pn1, NODE *pn2)
 
 NODE *append_node_if(NODE *pn1, NODE *pn2)
 {
-	if (pn2->intstruction == IF_TOKEN || pn2->intstruction == DEFFONCTION_TOKEN || pn2->intstruction == ELSE_TOKEN)
+	if (pn2->intstruction == IF_TOKEN || pn2->intstruction == ELSE_TOKEN)
 	{
 			if (pn2->program == NULL)
 			{
@@ -80,7 +80,7 @@ NODE *append_node_if(NODE *pn1, NODE *pn2)
 	}
 	else
 	{
-		printf("Error if\n");
+		printf("error if\n");
 	}
 	return pn2;
 }
@@ -120,7 +120,7 @@ void print_node(NODE *pn, int *tab)
 			printf("RIGHT ");
 			printf("%d", pn->value);
 			break;
-		case REPEATc:
+		case REPEAT_TOKEN:
 			printf("REPEAT ");
 			printf("%d", pn->value);
 			break;
@@ -159,10 +159,10 @@ void print_node(NODE *pn, int *tab)
 			printf("%d", pn->value);
 			break;
 		default:
-			printf("Instruction inconnue");
+			printf("Unkown instruction");
 			break;
 		}
-		if (pn->intstruction == REPEATc || pn->intstruction == IF_TOKEN || pn->intstruction == ELSE_TOKEN  ||  pn->intstruction == DEFFONCTION_TOKEN)
+		if (pn->intstruction == REPEAT_TOKEN || pn->intstruction == IF_TOKEN || pn->intstruction == ELSE_TOKEN  ||  pn->intstruction == DEFFONCTION_TOKEN)
 		{
 			printf(" [\n");
 			a = a + 1;
@@ -218,7 +218,7 @@ void draw_line(FILE *file, NODE *n, NODE *start)
 {
 	if (n == NULL)
 		return;
-	if (n->intstruction == REPEATc)
+	if (n->intstruction == REPEAT_TOKEN)
 	{
 		int i;
 		int a = n->value;
@@ -308,7 +308,7 @@ void update_svg(NODE *n, NODE *start, ACTION *value)
 {
 	if (n == NULL)
 		return;
-	if (n->intstruction == REPEATc)
+	if (n->intstruction == REPEAT_TOKEN)
 	{
 		int i;
 		int a = n->value;
@@ -355,7 +355,6 @@ void update_svg(NODE *n, NODE *start, ACTION *value)
 				value->right = xo;
 			else if (xo < value->left)
 				value->left = xo;
-
 			if (yo > value->down)
 				value->down = yo;
 			else if (yo < value->up)
@@ -375,11 +374,6 @@ void update_svg(NODE *n, NODE *start, ACTION *value)
 		}
 	}
 	update_svg(n->next, start, value);
-}
-
-void show_struct(ACTION movment)
-{
-	printf("Right: %f, Left: %f, Up: %f, Down: %f\n", movment.right, movment.left, movment.up, movment.down);
 }
 
 double max(double a, double b)

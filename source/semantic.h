@@ -6,7 +6,7 @@ enum token
 	FORWARD_TOKEN,
 	LEFT_TOKEN,
 	RIGHT_TOKEN,
-	REPEATc,
+	REPEAT_TOKEN,
 	IF_TOKEN,
 	ELSE_TOKEN,
 	BLUE_TOKEN,
@@ -57,7 +57,6 @@ void free_node(NODE **n);
 void draw(NODE *n);
 void draw_line(FILE *file, NODE *n, NODE *start);
 void update_svg(NODE *n, NODE *start, ACTION *value);
-void show_struct(ACTION movment);
 double max(double a, double b);
 double absolute_value(double a);
 void write_line(FILE *file, double x2, double y2);

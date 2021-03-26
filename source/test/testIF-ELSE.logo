@@ -1,7 +1,7 @@
-IF ( 1 < 0 ) [ 
+IF ( 0 ) [ 
     FORWARD 25 
     LEFT 45 
     FORWARD 20
     RIGHT 90
 ]
-ELSE [ RIGHT ]
+ELSE [ RIGHT 40 FORWARD 100 ]

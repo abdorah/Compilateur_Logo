@@ -59,7 +59,7 @@ INSTRUCTION : FORWARD EXPRESSION
 }
 | REPEAT EXPRESSION '[' PROGRAM ']'
 {
-    NODE *rep = create_node(REPEATc, $2, NULL);
+    NODE *rep = create_node(REPEAT_TOKEN, $2, NULL);
     $$ = append_node_repeat($4, rep);
 }
 | IF EXPRESSION '[' PROGRAM ']' BLOCK
@@ -105,13 +105,14 @@ INSTRUCTION : FORWARD EXPRESSION
 
 BLOCK : ELSE '[' PROGRAM ']'
 {
-    NODE *elst = create_node(ELSE_TOKEN, 0, $3);
+    NODE *elst = create_node(ELSE_TOKEN, 0, NULL);
     $$ = NULL;
-    $$ = append_node_if($$, elst);
+    $$ = append_node_if($3, elst);
 }
 | %empty
 {
     $$ = NULL;
+    free_node(&$$);
     printf("\n");
 }
 
