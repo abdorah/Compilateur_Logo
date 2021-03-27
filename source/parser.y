@@ -112,7 +112,6 @@ BLOCK : ELSE '[' PROGRAM ']'
 | %empty
 {
     $$ = NULL;
-    free_node(&$$);
     printf("\n");
 }
 
